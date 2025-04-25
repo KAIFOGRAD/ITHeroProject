@@ -3,6 +3,7 @@
 
 <head>
     <link th:href="@{/css/style.css}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -13,6 +14,7 @@
         type="text/javascript"></script>
     <style>
         #map {
+
             width: 100%;
             height: 700px;
 
@@ -32,6 +34,172 @@
             margin: 0;
         }
 
+        .map-controls {
+            position: flex;
+            left: 20px;
+            top: 20px;
+            width: 300px;
+            z-index: 1000;
+            background-color: rgba(0, 0, 0, 0.8);
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+            color: #fff;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .search-container {
+            margin-bottom: 15px;
+        }
+
+        .search-group {
+            display: flex;
+            margin-bottom: 10px;
+        }
+
+        .button-group {
+            display: flex;
+            margin-left: 5px;
+        }
+
+        /* Поля ввода */
+        .search-input,
+        .form-input,
+        .form-textarea,
+        .form-select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 12px;
+            border: 1px solid #2c3e50;
+            border-radius: 4px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .search-input:focus,
+        .form-input:focus,
+        .form-textarea:focus,
+        .form-select:focus {
+            outline: none;
+            border-color: #27ae60;
+            box-shadow: 0 0 0 2px rgba(39, 174, 96, 0.2);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+
+        /* Кнопки */
+        .control-btn {
+            padding: 10px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .search-btn {
+            background-color: #27ae60;
+            color: white;
+        }
+
+        .search-btn:hover {
+            background-color: #2ecc71;
+        }
+
+        .clear-btn {
+            background-color: #e74c3c;
+            color: white;
+            margin-left: 5px;
+        }
+
+        .clear-btn:hover {
+            background-color: #c0392b;
+        }
+
+        .add-marker-btn {
+            width: 100%;
+            background-color: #3498db;
+            color: white;
+            padding: 10px;
+            justify-content: center;
+        }
+
+        .add-marker-btn:hover {
+            background-color: #2980b9;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        .form-btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .save-btn {
+            background-color: #27ae60;
+            color: white;
+            flex-grow: 1;
+            margin-right: 5px;
+        }
+
+        .save-btn:hover {
+            background-color: #2ecc71;
+        }
+
+        .cancel-btn {
+            background-color: #7f8c8d;
+            color: white;
+            flex-grow: 1;
+            margin-left: 5px;
+        }
+
+        .cancel-btn:hover {
+            background-color: #95a5a6;
+        }
+
+        /* Форма метки */
+        .marker-form {
+            display: none;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .form-title {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #27ae60;
+            font-size: 18px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 5px;
+            color: #bdc3c7;
+            font-size: 13px;
+        }
+
+        /* Иконки (требуется подключение Font Awesome) */
+        .control-btn i {
+            margin-right: 5px;
+            font-size: 14px;
+        }
     </style>
 </head>
 
@@ -39,27 +207,38 @@
     <header th:replace="~{layout/layout :: header}"></header>
 
 
-    <div class="controls">
-        <div class="search-group">
-            <input id="searchInput" type="text" placeholder="Введите название места">
-            <button onclick="performSearch()">Найти</button>
-            <button onclick="clearSearch()">Сбросить</button>
-            <button onclick="toggleMarkerForm()">Добавить метку</button>
+    <div class="map-controls">
+        <div class="search-container">
+            <!-- <div class="search-group">
+                <input id="searchInput" type="text" placeholder="Поиск места..." class="search-input">
+                <div class="button-group">
+                    <button onclick="performSearch()" class="control-btn search-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <button onclick="clearSearch()" class="control-btn clear-btn">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div> -->
+            <button onclick="toggleMarkerForm()" class="control-btn add-marker-btn">
+                <i class="fas fa-map-marker-alt"></i> Добавить метку
+            </button>
         </div>
 
         <div id="markerForm" class="marker-form">
-            <h3>Добавить новую метку</h3>
-            <div>
-                <label>Название:</label>
-                <input type="text" id="markerName" placeholder="Название метки">
+            <h3 class="form-title">Новая метка</h3>
+            <div class="form-group">
+                <label class="form-label">Название:</label>
+                <input type="text" id="markerName" placeholder="Введите название" class="form-input">
             </div>
-            <div>
-                <label>Описание:</label>
-                <textarea id="markerDescription" placeholder="Описание метки" rows="3" style="width: 300px;"></textarea>
+            <div class="form-group">
+                <label class="form-label">Описание:</label>
+                <textarea id="markerDescription" placeholder="Добавьте описание" rows="3"
+                    class="form-textarea"></textarea>
             </div>
-            <div>
-                <label>Категория:</label>
-                <select id="markerCategory">
+            <div class="form-group">
+                <label class="form-label">Категория:</label>
+                <select id="markerCategory" class="form-select">
                     <option value="restaurant">Ресторан</option>
                     <option value="cafe">Кафе</option>
                     <option value="shop">Магазин</option>
@@ -67,12 +246,19 @@
                     <option value="other">Другое</option>
                 </select>
             </div>
-            <button onclick="saveMarker()">Сохранить</button>
-            <button onclick="cancelMarker()">Отмена</button>
+            <div class="form-actions">
+                <button onclick="saveMarker()" class="form-btn save-btn">Сохранить</button>
+                <button onclick="cancelMarker()" class="form-btn cancel-btn">Отмена</button>
+            </div>
         </div>
     </div>
 
-    <div id="map"></div>
+
+
+
+    <div class="map_container">
+        <div id="map"></div>
+    </div>
 
     <script th:inline="javascript">
         const defaultLat = [[${ defaultLat }]] || 56.838011;
