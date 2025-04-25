@@ -7,9 +7,9 @@
 }
 
 .header {
-    min-height: 30vh;
+    min-height: 9vh;
     width: 100%;
-    background: #000;
+    background: #29df0c;
     color: #fff;
     position: relative;
 }
@@ -45,7 +45,7 @@ nav {
 .nav-links ul li a {
     color: #fff;
     text-decoration: none;
-    font-size: 18px;
+    font-size: 24px;
 }
 
 .left-sidebar {
@@ -174,6 +174,7 @@ nav {
 /* Эффект для логотипа */
 .logo {
     position: relative;
+    color: #fff;
     transition: color 0.6s;
 }
 
@@ -199,73 +200,80 @@ nav {
 
 /* Эффект для боковой панели */
 .left-sidebar {
-    transition: width 0.3s;
+    display: none;
 }
 
-.left-sidebar:hover {
-    width: 22%;
-    box-shadow: 4px 0 15px #294025;
+
+.burger-menu {
+    display: none;
+    cursor: pointer;
+    z-index: 1000;
 }
 
-/* Эффекты для текста */
-.right-col h1 {
-    transition: text-shadow 0.3s;
+.burger-menu span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    margin: 5px;
+    background-color: #fff;
+    transition: all 0.3s ease;
 }
 
-.right-col h1:hover {
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-}
+/* Мобильная версия */
+@media (max-width: 768px) {
+    .nav-links {
+        position: fixed;
+        right: -300px; /* Ширина меню + смещение */
+        top: calc(9vh + 4px);
+        height: 20vh;
+        width: 230px; /* Фиксированная ширина */
+        background: rgba(41, 223, 12, 0.98);
+        padding: 20px;
+        transition: all 0.3s ease;
+        border-radius: 10px 0 0 10px;
+        box-shadow: -2px 0 15px rgba(0,0,0,0.2);
+    }
 
-.right-col p {
-    position: relative;
-    transition: padding-left 0.3s;
-}
+    .nav-links.active {
+        right: 0;
+    }
 
-.right-col p:hover {
-    padding-left: 15px;
-}
+    .nav-links ul {
+        display: flex;
+        flex-direction: column;
+        text-align: left; /* Выравнивание по левому краю */
+        padding-left: 15px;
+    }
 
-.right-col p::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 100%;
-    width: 3px;
-    background-color: #29df0c;
-    opacity: 0;
-    transition: opacity 0.3s;
-}
+    .nav-links ul li {
+        display: block;
+        padding: 10px 0;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
 
-.right-col p:hover::before {
-    opacity: 1;
-}
+    .nav-links ul li:last-child {
+        border-bottom: none;
+    }
 
-/* Дополнительные эффекты для иконок */
-.icon {
-    transition: transform 0.3s, box-shadow 0.3s;
-}
+    .burger-menu {
+        display: block;
+        position: relative;
+        z-index: 1001;
+    }
 
-.icon:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(41, 223, 12, 0.4);
-}
+    .burger-menu.active span:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 5px);
+    }
 
-.icon i {
-    transition: transform 0.3s;
-}
+    .burger-menu.active span:nth-child(2) {
+        opacity: 0;
+    }
 
-.icon:hover i {
-    transform: rotate(360deg);
-}
+    .burger-menu.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(7px, -6px);
+    }
 
-/* Эффект "пульсации" для CTA элементов */
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
-}
-
-.img:hover {
-    animation: pulse 1.5s infinite;
+    .left-sidebar {
+        width: 15% !important;
+    }
 }
