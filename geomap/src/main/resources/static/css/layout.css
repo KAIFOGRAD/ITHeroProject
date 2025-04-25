@@ -9,10 +9,9 @@
 .header {
     min-height: 20vh;
     width: 100%;
-    background: #000;
+    background: #29df0c;
     color: #fff;
     position: relative;
-    border-bottom: 4px solid #000;
 }
 
 .burger-menu {
@@ -57,7 +56,7 @@ nav {
 .nav-links ul li a {
     color: #fff;
     text-decoration: none;
-    font-size: 18px;
+    font-size: 26px;
 }
 
 .left-sidebar {
@@ -72,23 +71,58 @@ nav {
 .row {
     padding: 0 10%;
     display: flex;
-    align-items: flex-end;
     position: relative;
     background: rgb(41, 223, 12);
 }
 
-.info {
-    max-width: 900px;
-}
-
+/*  */
 .right-col {
-
+    flex: 1;
+    position: relative;
 }
 
+.map-wrapper {
+    height: 100%;
+}
 
+.map-container {
+    position: relative;
+    width: 120%; /* Увеличенный размер */
+    max-width: 800px;
+    height: 0;
+    padding-bottom: 70%; /* Соотношение сторон */
+    margin-right: -10%; /* Выступает за границы */
+}
+
+.russia-masked {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    
+    /* Маска России */
+    -webkit-mask-image: url('https://static.tildacdn.com/tild3937-6630-4831-b063-323330633962/__.png');
+    mask-image: url('https://static.tildacdn.com/tild3937-6630-4831-b063-323330633962/__.png');
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: top;
+    mask-position: top;
+    
+    /* Эффекты */
+    filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.2));
+    transition: transform 0.3s ease;
+}
+
+.russia-masked:hover {
+    transform: scale(1.02);
+}
+/*  */
 
 .left-col {
-    flex-basis: 90%;
+    max-width: 63%;
     padding-top: 40px;
 }
 
@@ -117,52 +151,52 @@ nav {
 
 .social-media {
     display: flex;
+    flex-wrap: wrap;
     margin-top: 30px;
+    gap: 20px;
 }
 
 .icon {
-    width: 100px;
-    height: 100px;
-    background: #555;
+    width: 90px;
+    height: 90px;
+    background: #fff; 
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
-    margin-right: 20px;
-    margin-bottom: 20px;
-    border-radius: 6px;
+    border-radius: 12px;
     overflow: hidden;
+    position: relative;
+    transition: all 0.3s ease;
 }
 
-.icon i {
-    width: 28px;
-    color: white;
-    font-size: 28px;
+.icon:hover {
+    background-color: #1a5c0f;
+    transition: 0.3s ease-in-out;
+    cursor: pointer;
 }
 
-.icon a {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #1a5c0f;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transition: 0.5s;
+.social-icon {
+    width: 60%;
+    height: 60%;
+    object-fit: contain;
+    position: relative;
+    z-index: 1;
+    transition: all 0.3s ease;
 }
 
+.icon:hover .social-icon {
+    filter: brightness(0) invert(1);
+}
 
-
-.icon a:hover {
-    opacity: 1;
+.icon.small .social-icon {
+    width: 140%;  
+    height: 140%; 
+    object-fit: contain;
 }
 
 .nav-links ul li a {
     position: relative;
-    padding-bottom: 5px; /* Добавляем пространство для линии */
+    padding-bottom: 5px; 
 }
 
 .nav-links ul li a::after {
@@ -172,7 +206,7 @@ nav {
     bottom: 0;
     width: 0;
     height: 2px;
-    background-color: #1a5c0f; /* Темно-зеленый цвет */
+    background-color: #1a5c0f;  
     transition: width 0.3s ease-out;
 }
 
@@ -217,15 +251,7 @@ nav {
     transform: scaleX(1);
 }
 
-/* Эффект для боковой панели */
-.left-sidebar {
-    transition: width 0.3s;
-}
 
-.left-sidebar:hover {
-    width: 22%;
-    box-shadow: 4px 0 15px #294025;
-}
 
 /* Эффекты для текста */
 .left-col h1 {
@@ -376,10 +402,142 @@ nav {
     transform: rotate(45deg);
 }
 
-/* Сообщение при отсутствии результатов */
-.no-results {
-    text-align: center;
-    padding: 2rem;
-    color: #666;
-    display: none;
+
+@media (max-width: 480px) {
+    .header {
+        min-height: 10vh;
+    }
+
+    .left-sidebar {
+        display: none;
+    }
+
+    nav {
+        padding: 15px 5%;
+        display: inline-block;
+    }
+
+    .logo {
+        font-size: 24px;
+    }
+
+    .nav-links {
+        padding: 0;
+        width: 100%;
+    }
+
+    .nav-links ul {
+        padding: 0;
+        margin-top: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        gap: 80px;
+    }
+
+    .nav-links ul li{
+        padding: 0;
+    }
+
+    .nav-links ul li a {
+        font-size: 20px;
+        padding: 0;
+    }
+    
+    .left-col {
+        max-width: 100%;
+        padding-top: 0;
+    }
+
+    .left-col h1 {
+        font-size: 35px;
+    }
+
+    .left-col p {
+        font-size: 28px;
+        margin: 20px 0 50px;
+    }
+
+    .icon {
+        width: 70px;
+        height: 70px;
+    }
+
+    .social-icon {
+        width: 50%;
+        height: 50%;
+    }
+
+    .social-media {
+        gap: 40px;
+        justify-content: center;
+        margin-bottom: 35px;
+    }
+
+    .map-container {
+        width: 100%;
+        margin-right: 0;
+    }
+
+    /* Изменение направления флекс-контейнера для маленьких экранов */
+    .row {
+        flex-direction: column;  /* Меняем направление с row на column */
+        padding: 0 5%;
+    }
+
+    .faq-section {
+        padding-bottom: 20px;
+    }
+}
+
+/* Для разрешения 390px */
+@media (max-width: 390px) {
+    .header {
+        min-height: 15vh;
+    }
+
+    nav {
+        padding: 15px 5%;
+    }
+
+    .logo {
+        font-size: 22px;
+    }
+
+    .nav-links ul li a {
+        font-size: 18px;
+        padding: 8px 12px;
+    }
+
+
+    .left-col h1 {
+        font-size: 30px;
+    }
+
+    .left-col p {
+        font-size: 24px;
+        margin: 20px 0 40px;
+    }
+
+    .icon {
+        width: 60px;
+        height: 60px;
+    }
+
+    .social-icon {
+        width: 50%;
+        height: 50%;
+    }
+
+    .map-container {
+        width: 100%;
+        margin-right: 0;
+    }
+
+    /* Изменение направления флекс-контейнера для очень маленьких экранов */
+    .row {
+        flex-direction: column;  /* Меняем направление с row на column */
+        padding: 0 5%;
+    }
 }

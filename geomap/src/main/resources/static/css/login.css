@@ -1,8 +1,15 @@
 /* Основные стили */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Важно для правильных расчётов размеров */
+}
+
 html, body {
     height: 100%;
     margin: 0;
     overflow: hidden; /* Запрещает прокрутку */
+    box-sizing: border-box;
 }
 
 .root {
@@ -144,6 +151,13 @@ form {
 }
 
 @media screen and (max-width: 480px) {
+    .header {
+        min-height: 7vh;
+    }
+    body {
+        height: 100vh;
+    }
+
     h1.title {
         font-size: 24px;
         margin-bottom: 0; /* Делаем заголовок еще меньше */
@@ -197,13 +211,4 @@ form {
     }
 }
 
-/* @media screen and (max-width: 480px) {
-    h1.title {
-        font-size: 46px;
-    }
-
-    .root {
-        justify-content: flex-start;
-    }
-} */
 

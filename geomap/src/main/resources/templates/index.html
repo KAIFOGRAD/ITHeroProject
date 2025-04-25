@@ -5,6 +5,7 @@
 <head>
     <link th:href="@{/css/layout.css}" rel="stylesheet" />
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>main page</title>
 </head>
 
@@ -12,25 +13,26 @@
     <header th:replace="~{layout/layout :: header}"></header>
     <main class="main">
         <div class="row info">
-            <div class="right-col">
-                <div class="russia-mask"></div>
-            </div>
             <div class="left-col">
                 <h1>Исследуйте мир с Geomap</h1>
-                <p>Откройте для себя новые места и сохраняйте свои любимые маршруты.</p>
+                <p>Твой помощник в мире Хакатонов</p>
                 
                 <div class="social-media">
                     <div class="icon">
-                        <i class="fab fa-facebook-f"></i>
-                        <a href="#"></a>
+                        <img th:src="@{/img/1с.svg}" alt="1с" class="social-icon">
                     </div>
                     <div class="icon">
-                        <i class="fab fa-instagram"></i>
-                        <a href="#"></a>
+                        <img th:src="@{/img/prime.svg}" alt="Prime Region" class="social-icon">
                     </div>
-                    <div class="icon">
-                        <i class="fab fa-twitter"></i>
-                        <a href="#"></a>
+                    <div class="icon small">
+                        <img th:src="@{/img/hack.svg}" alt="Хакатон" class="social-icon">
+                    </div>
+                </div>
+            </div>
+            <div class="right-col">
+                <div class="map-wrapper">
+                    <div class="map-container">
+                        <img th:src="@{/img/map.jpg}" alt="map" class="russia-masked">
                     </div>
                 </div>
             </div>
@@ -59,7 +61,7 @@
                             <span class="toggle-icon">+</span>
                         </div>
                         <div class="answer">
-                            <p>• Режим офлайн-навигации<br>
+                            <p>
                             • Точные обновления карт каждую неделю<br>
                             • Уникальные слои для разных видов активности<br>
                             • Совместное планирование маршрутов<br>
@@ -74,7 +76,7 @@
                         </div>
                         <div class="answer">
                             <p>
-                                Че то там лайки и можно вернуться туда где понравилось 
+                                Посещайте интересные места, ставьте лайки и возвращайтесь туда где понравилось 
                             </p>
                         </div>
                     </div>
