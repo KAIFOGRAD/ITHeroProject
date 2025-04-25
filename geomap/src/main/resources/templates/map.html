@@ -28,20 +28,25 @@
 
         .map-controls-container {
             position: absolute;
-            top: 50px;
-            left: 40px;
+            top: 40px;
+            right: 27px;
             z-index: 1000;
         }
 
         .map-controls {
-            background-color: rgba(30, 30, 30, 0.9);
+            background-color: rgba(30, 30, 30, 0.95);
+            /* Чуть менее прозрачный */
             border-radius: 8px;
-            padding: 15px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            padding: 5px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+            /* Меньше размытие тени */
             color: #fff;
             font-family: 'Segoe UI', sans-serif;
-            border: 1px solid rgba(46, 204, 113, 0.3);
+            border: 0.3px solid rgba(46, 204, 113, 0.15);
+            /* Тонкая и более прозрачная рамка */
             width: 200px;
+            backdrop-filter: blur(4px);
+            /* Легкое размытие фона */
         }
 
         .add-marker-btn {
