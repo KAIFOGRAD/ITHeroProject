@@ -1,0 +1,209 @@
+/* Основные стили */
+html, body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden; /* Запрещает прокрутку */
+}
+
+.root {
+    font-family: 'Arial', sans-serif;
+    background-color: #121212;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+}
+
+.root::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(41, 223, 12, 0.1) 20%, rgba(41, 223, 12, 0.5) 50%, rgba(41, 223, 12, 0.2) 80%);
+    z-index: -1; 
+    pointer-events: none; 
+    animation: splashAnimation 8s infinite ease-in-out;
+}
+
+/* Анимация для клякс */
+@keyframes splashAnimation {
+    0% {
+        transform: scale(1) translate(0, 0);
+    }
+    25% {
+        transform: scale(1.5) translate(5px, 5px);
+    }
+    50% {
+        transform: scale(2) translate(10px, -5px);
+    }
+    75% {
+        transform: scale(1.5) translate(-5px, -5px);
+    }
+    100% {
+        transform: scale(1) translate(0, 0);
+    }
+}
+
+
+
+h1.title {
+    font-size: 36px;
+    color: rgb(41, 223, 12);
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+/* Формы и поля ввода */
+form {
+    background-color: #1d1d1d;
+    padding: 30px;
+    border-radius: 8px;
+    width: 300px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.6);
+}
+
+.label {
+    color: rgb(41, 223, 12);;
+    font-size: 18px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    background-color: #333;
+    border: 1px solid #444;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.input:focus {
+    outline: none;
+    border-color: rgb(41, 223, 12);;
+    background-color: #222;
+}
+
+/* Кнопка отправки */
+.button {
+    width: 100%;
+    padding: 12px;
+    background-color: rgb(41, 223, 12);;
+    border: none;
+    border-radius: 5px;
+    color: #121212;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    box-sizing: border-box;
+}
+
+.button:hover {
+    background-color: #009900;
+}
+
+/* Сообщения об ошибках и успехах */
+.error {
+    color: #ff0000;
+    font-size: 14px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.message {
+    color: rgb(41, 223, 12);;
+    font-size: 14px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+/* Ссылка на регистрацию */
+.form_text {
+    text-align: center;
+    color: #aaa;
+    font-size: 14px;
+}
+
+.form_link {
+    color: rgb(41, 223, 12);;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.form_link:hover {
+    text-decoration: underline;
+}
+
+@media screen and (max-width: 480px) {
+    h1.title {
+        font-size: 24px;
+        margin-bottom: 0; /* Делаем заголовок еще меньше */
+    }
+
+    form {
+        width: 90%; /* Ширина формы на 90% экрана */
+        padding: 15px; /* Меньше отступов для экономии места */
+    }
+
+    .label {
+        font-size: 14px; /* Уменьшаем размер шрифта для меток */
+    }
+
+    .input {
+        
+    }
+
+    .input, .button {
+        font-size: 16px; /* Увеличиваем размер шрифта в полях и кнопке для удобства */
+        padding: 12px; /* Увеличиваем padding в полях ввода и кнопке */
+    }
+
+    .form_text {
+        font-size: 12px; /* Уменьшаем шрифт в тексте */
+    }
+}
+
+/* Для экранов с шириной до 390px (меньшие мобильные экраны) */
+@media screen and (max-width: 390px) {
+    h1.title {
+        font-size: 20px; /* Меньше заголовок */
+    }
+
+    form {
+        width: 95%; /* Почти вся ширина экрана для формы */
+        padding: 10px; /* Еще меньше отступов */
+    }
+
+    .label {
+        font-size: 12px; /* Очень маленький шрифт для меток */
+    }
+
+    .input, .button {
+        font-size: 14px; /* Уменьшаем шрифт для маленьких экранов */
+        padding: 10px; /* Паддинг тоже уменьшаем */
+    }
+
+    .form_text {
+        font-size: 10px; /* Еще меньший шрифт для текста */
+    }
+}
+
+/* @media screen and (max-width: 480px) {
+    h1.title {
+        font-size: 46px;
+    }
+
+    .root {
+        justify-content: flex-start;
+    }
+} */
+

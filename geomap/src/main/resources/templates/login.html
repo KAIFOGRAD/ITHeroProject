@@ -2,30 +2,35 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Вход</title>
     <style>
         .error { color: red; }
         .message { color: green; }
     </style>
+    <link href="css/login.css" rel="stylesheet" />
+    <link th:href="@{/css/login.css}" rel="stylesheet" />
+
 </head>
-<body>
-    <h1>Вход в систему</h1>
+<body class="root">
+    <h1 class="title">Вход в систему</h1>
     
     <div th:if="${error}" class="error" th:text="${error}"></div>
     <div th:if="${message}" class="message" th:text="${message}"></div>
     
     <form th:action="@{/login}" method="post">
         <div>
-            <label>Логин:</label>
-            <input type="text" name="login" required>
+            <label class="label">Логин:</label>
+            <input class="input login_input" type="text" name="login" required>
         </div>
         <div>
-            <label>Пароль:</label>
-            <input type="password" name="password" required>
+            <label class="label">Пароль:</label>
+            <input class="input password_input" type="password" name="password" required>
         </div>
-        <button type="submit">Войти</button>
+        <button class="button" type="submit" href="../">Войти</button>
     </form>
     
-    <p>Нет аккаунта? <a href="/registration">Зарегистрироваться</a></p>
+    <p class="form_text">Нет аккаунта? <a class="form_link" href="/registration">Зарегистрироваться</a></p>
 </body>
 </html>

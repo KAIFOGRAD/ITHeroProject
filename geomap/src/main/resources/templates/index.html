@@ -3,16 +3,94 @@
     layout:decorate="~{layout/layout}">
 
 <head>
-    <link th:href="@{/css/style.css}" rel="stylesheet" />
+    <link th:href="@{/css/layout.css}" rel="stylesheet" />
     <meta charset="UTF-8">
     <title>main page</title>
 </head>
 
 <body>
     <header th:replace="~{layout/layout :: header}"></header>
-    <h1>МИша чмо</h1>
+    <main class="main">
+        <div class="row info">
+            <div class="left-col">
+                
+            </div>
+            <div class="right-col">
+                <h1>Исследуйте мир с Geomap</h1>
+                <p>Откройте для себя новые места и сохраняйте свои любимые маршруты.</p>
+                
+                <div class="social-media">
+                    <div class="icon">
+                        <i class="fab fa-facebook-f"></i>
+                        <a href="#"></a>
+                    </div>
+                    <div class="icon">
+                        <i class="fab fa-instagram"></i>
+                        <a href="#"></a>
+                    </div>
+                    <div class="icon">
+                        <i class="fab fa-twitter"></i>
+                        <a href="#"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <div class="row faq-section">
+        
+                <div class="faq-list">
+                    <!-- Примеры вопросов -->
+                    <div class="faq-item">
+                        <div class="question">
+                            <h3>Как добавить свою точку на карту?</h3>
+                            <span class="toggle-icon">+</span>
+                        </div>
+                        <div class="answer">
+                            <p>1. Откройте карту в режиме редактирования<br>
+                            2. Нажмите кнопку "Добавить точку"<br>
+                            3. Выберите местоположение на карте<br>
+                            4. Заполните информацию о точке<br>
+                            5. Сохраните изменения</p>
+                        </div>
+                    </div>
+        
+                    <div class="faq-item">
+                        <div class="question">
+                            <h3>Чем Geomap лучше других сервисов?</h3>
+                            <span class="toggle-icon">+</span>
+                        </div>
+                        <div class="answer">
+                            <p>• Режим офлайн-навигации<br>
+                            • Точные обновления карт каждую неделю<br>
+                            • Уникальные слои для разных видов активности<br>
+                            • Совместное планирование маршрутов<br>
+                            • Экологичный подход (1% от прибыли - на защиту природы)</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="question">
+                            <h3>Возвращайтесь туда, где вам рады</h3>
+                            <span class="toggle-icon">+</span>
+                        </div>
+                        <div class="answer">
+                            <p>
+                                Че то там лайки и можно вернуться туда где понравилось 
+                            </p>
+                        </div>
+                    </div>
+        
+                </div>
+        </div>
+    </main>
 </body>
 
-
+<script>
+    document.querySelectorAll('.question').forEach(item => {
+            item.addEventListener('click', () => {
+                const parent = item.parentElement;
+                parent.classList.toggle('active');
+            });
+        });
+</script>
 
 </html>
