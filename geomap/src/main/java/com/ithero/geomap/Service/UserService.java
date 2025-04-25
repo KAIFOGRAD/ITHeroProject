@@ -2,16 +2,18 @@ package com.ithero.geomap.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
+import com.ithero.geomap.DTO.UserRegistrationDto;
 import com.ithero.geomap.Entity.User.Role;
 import com.ithero.geomap.Entity.User.User;
 import com.ithero.geomap.Repository.UserRepository;
 
+@Service
 public class UserService {
 
-    private final UserRepository userRepository; 
-
-    private final PasswordEncoder passwordEncoder; 
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
@@ -19,24 +21,16 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User createUser(User userDTO) {
-
-      //  if (isUserExists(userDTO)) {
-       //     throw new UserAlreadyExistsException("Пользователь с таким логином уже существует");
-//        }
-
+    public User registerUser(UserRegistrationDto registrationDto) {
+        if (userRepository.existsByLogin(registrationDto.getLogin())) {
+            throw new IllegalArgumentException("Login already exists");
+        }
+        
         User user = new User();
-        user.setLogin(userDTO.getLogin());
-        user.setPassword(passwordEncoder.encode(userDTO.getPassword())); 
-        user.setRole(Role.ROLE_USER); 
-
+        user.setLogin(registrationDto.getLogin());
+        user.setPassword(passwordEncoder.encode(registrationDto.getPassword()));
+        user.setRole(Role.ROLE_USER);
+        
         return userRepository.save(user);
-
-    }
-
-    public boolean isUserExists(User userDTO) {
-
-        return userRepository.existsByLogin(userDTO.getLogin());
-
     }
 }
