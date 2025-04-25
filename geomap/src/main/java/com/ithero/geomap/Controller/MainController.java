@@ -17,12 +17,4 @@ public class MainController{
 		return "index";
 	}
 
-    @GetMapping("/map")
-    public String showMap(Model model) {
-        model.addAttribute("defaultLat", 55.751244);
-        model.addAttribute("defaultLon", 37.618423);
-        model.addAttribute("yandexApiKey", yandexApiKey); 
-        return "map";
-    }
-
 }

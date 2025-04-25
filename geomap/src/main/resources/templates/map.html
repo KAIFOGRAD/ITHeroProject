@@ -3,59 +3,301 @@
 
 <head>
     <link th:href="@{/css/style.css}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>map page</title>
 
-    <script src="https://api-maps.yandex.ru/2.1/?apikey=[[${yandexApiKey}]]&lang=ru_RU" 
+    <script th:src="'https://api-maps.yandex.ru/2.1/?apikey=' + ${yandexApiKey} + '&lang=ru_RU'"
         type="text/javascript"></script>
     <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background-color: #000;
+        }
+
         #map {
             width: 100%;
-            height: 700px;
+            height: 100vh;
+            /* Занимает всю высоту экрана */
+            position: relative;
         }
 
-        body {
-            background-color: #000;
-            display: flex;
-            flex-direction: column;
+        .map-controls-container {
+            position: absolute;
+            top: 40px;
+            right: 27px;
+            z-index: 1000;
         }
 
-        .map_container {
+        .map-controls {
+            background-color: rgba(30, 30, 30, 0.95);
+            /* Чуть менее прозрачный */
+            border-radius: 8px;
+            padding: 5px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+            /* Меньше размытие тени */
+            color: #fff;
+            font-family: 'Segoe UI', sans-serif;
+            border: 0.3px solid rgba(46, 204, 113, 0.15);
+            /* Тонкая и более прозрачная рамка */
+            width: 200px;
+            backdrop-filter: blur(4px);
+            /* Легкое размытие фона */
+        }
+
+        .add-marker-btn {
+            width: 100%;
+            background-color: #3498db;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
             align-items: center;
-            margin: 0;
+            justify-content: center;
+            transition: all 0.3s;
         }
 
+        .add-marker-btn:hover {
+            background-color: #2980b9;
+        }
+
+        .add-marker-btn i {
+            margin-right: 8px;
+        }
+
+        /* Стили формы (остаются без изменений) */
+        .marker-form {
+            display: none;
+            margin-top: 15px;
+        }
+
+        .form-title {
+            margin: 0 0 15px 0;
+            color: #2ecc71;
+            font-size: 1.2rem;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 5px;
+            color: #bdc3c7;
+            font-size: 0.9rem;
+        }
+
+        .form-input,
+        .form-textarea,
+        .form-select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #34495e;
+            border-radius: 4px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 0.9rem;
+        }
+
+        .form-textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .form-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .save-btn {
+            background-color: #27ae60;
+            color: white;
+        }
+
+        .save-btn:hover {
+            background-color: #2ecc71;
+        }
+
+        .cancel-btn {
+            background-color: #7f8c8d;
+            color: white;
+        }
+
+        .cancel-btn:hover {
+            background-color: #95a5a6;
+        }
+
+        @media (max-width: 768px) {
+            .map-controls {
+                width: calc(100% - 40px);
+                left: 20px;
+                right: 20px;
+            }
+        }
     </style>
 </head>
 
 <body>
     <header th:replace="~{layout/layout :: header}"></header>
+
+    <!-- Основной контейнер карты -->
+    <div id="map">
+        <!-- Контейнер для элементов управления на карте -->
+        <div class="map-controls-container">
+            <div class="map-controls">
+                <button onclick="toggleMarkerForm()" class="add-marker-btn">
+                    <i class="fas fa-map-marker-alt"></i> Добавить метку
+                </button>
+
+                <div id="markerForm" class="marker-form">
+                    <h3 class="form-title">Новая метка</h3>
+                    <div class="form-group">
+                        <label class="form-label">Название:</label>
+                        <input type="text" id="markerName" placeholder="Введите название" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Описание:</label>
+                        <textarea id="markerDescription" placeholder="Добавьте описание" rows="3"
+                            class="form-textarea"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Категория:</label>
+                        <select id="markerCategory" class="form-select">
+                            <option value="restaurant">Ресторан</option>
+                            <option value="cafe">Кафе</option>
+                            <option value="shop">Магазин</option>
+                            <option value="attraction">Достопримечательность</option>
+                            <option value="other">Другое</option>
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button onclick="saveMarker()" class="form-btn save-btn">Сохранить</button>
+                        <button onclick="cancelMarker()" class="form-btn cancel-btn">Отмена</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="map_container">
         <div id="map"></div>
     </div>
 
     <script th:inline="javascript">
-        const defaultLat = [[${defaultLat}]];
-        const defaultLon = [[${defaultLon}]];
+        const defaultLat = [[${ defaultLat }]] || 56.838011;
+        const defaultLon = [[${ defaultLon }]] || 60.597465;
+        let map, objectManager, searchControl;
+        let newMarkerCoords = null;
+        let newMarker = null;
 
         ymaps.ready(init);
 
         function init() {
-            const map = new ymaps.Map("map", {
-                center: [defaultLat, defaultLon], 
-                zoom: 12 
+            map = new ymaps.Map("map", {
+                center: [defaultLat, defaultLon],
+                zoom: 12
             });
 
+            map.controls.remove('searchControl');
+
+
+
+            // Инициализация ObjectManager для пользовательских меток
+            objectManager = new ymaps.ObjectManager({
+                clusterize: true,
+                gridSize: 32,
+                clusterDisableClickZoom: true
+            });
+
+            objectManager.objects.options.set('preset', 'islands#blueDotIcon');
+            objectManager.clusters.options.set('preset', 'islands#blueClusterIcons');
+            map.geoObjects.add(objectManager);
+
+            // Добавление стандартного маркера
             const marker = new ymaps.Placemark([defaultLat, defaultLon], {
-                hintContent: 'Москва!',
-                balloonContent: 'Столица России'
+                hintContent: 'Екатеринбург!',
+                balloonContent: 'Столица Урала'
+            }, {
+                preset: 'islands#redIcon'
             });
             map.geoObjects.add(marker);
+
+            // Загрузка пользовательских мест из базы данных
+            loadCustomPlaces();
+
+            // Инициализация поиска
+            initSearchControl();
+
+            // Обработчик клика по карте для добавления меток
+            map.events.add('click', function (e) {
+                if (document.getElementById('markerForm').style.display === 'block') {
+                    const coords = e.get('coords');
+                    newMarkerCoords = coords;
+
+                    // Удаляем предыдущую временную метку, если она есть
+                    if (newMarker) {
+                        map.geoObjects.remove(newMarker);
+                    }
+
+                    // Создаем временную метку
+                    newMarker = new ymaps.Placemark(coords, {
+                        hintContent: 'Новая метка',
+                        balloonContent: 'Укажите информацию о метке'
+                    }, {
+                        preset: 'islands#greenDotIcon'
+                    });
+
+                    map.geoObjects.add(newMarker);
+                }
+            });
+        }
+
+        function loadCustomPlaces() {
+            // Загрузка меток с сервера
+            fetch('/api/places')
+                .then(response => response.json())
+                .then(markers => {
+                    const features = markers.map(marker => ({
+                        id: marker.id,
+                        type: 'Feature',
+                        geometry: {
+                            type: 'Point',
+                            coordinates: [marker.latitude, marker.longitude]
+                        },
+                        properties: {
+                            name: marker.title,
+                            description: marker.description,
+                            category: marker.category,
+                            balloonContent: `
+                                <h3>${marker.title}</h3>
+                                <p><b>Категория:</b> ${getCategoryName(marker.category)}</p>
+                                <p>${marker.description}</p>
+                                <button onclick="deleteMarker(${marker.id})">Удалить</button>
+                            `
+                        }
+                    }));
+
+                    objectManager.add(features);
+                })
+                .catch(error => console.error('Ошибка загрузки меток:', error));
         }
 
         const burgerMenu = document.querySelector('.burger-menu');
@@ -72,9 +314,182 @@
                 navLinks.classList.remove('active');
             });
         });
+
+        function getCategoryName(category) {
+            const categories = {
+                'restaurant': 'Ресторан',
+                'cafe': 'Кафе',
+                'shop': 'Магазин',
+                'attraction': 'Достопримечательность',
+                'other': 'Другое'
+            };
+            return categories[category] || category;
+        }
+
+        function initSearchControl() {
+            searchControl = new ymaps.control.SearchControl({
+                options: {
+                    provider: 'yandex#search',
+                    noPlacemark: true,
+                    resultsPerPage: 5,
+                    noPopup: true
+                }
+            });
+
+            map.controls.add(searchControl);
+
+            searchControl.events.add('resultselect', function (e) {
+                const index = e.get('index');
+                searchControl.getResult(index).then(function (res) {
+                    const geoObject = res.geoObjects.get(0);
+
+                    geoObject.properties.get('CompanyMetaData').then(function (meta) {
+                        const address = meta.address;
+                        const hours = meta.Hours ? meta.Hours.text : 'Не указано';
+                        const rating = meta.rating ? meta.rating + '/5' : 'Нет оценок';
+
+                        let content = `
+                            <h3>${meta.name}</h3>
+                            <p><b>Адрес:</b> ${address}</p>
+                            <p><b>Режим работы:</b> ${hours}</p>
+                            <p><b>Рейтинг:</b> ${rating}</p>
+                        `;
+
+                        if (meta.Reviews) {
+                            content += '<p><b>Отзывы:</b><ul>';
+                            meta.Reviews.forEach(review => {
+                                content += `<li>${review.text} (${review.author}, ${review.rating}/5)</li>`;
+                            });
+                            content += '</ul></p>';
+                        }
+
+                        geoObject.properties.set('balloonContentBody', content);
+                        map.geoObjects.add(geoObject);
+                        geoObject.balloon.open();
+                    });
+                });
+            });
+        }
+
+        function performSearch() {
+            const query = document.getElementById('searchInput').value.trim();
+            if (!query) return;
+
+            // Сначала ищем в пользовательских метках
+            const customResults = objectManager.objects.getById()
+                .filter(obj => obj.properties.name.toLowerCase().includes(query.toLowerCase()));
+
+            if (customResults.length > 0) {
+                // Показываем найденные пользовательские метки
+                objectManager.setFilter(obj => customResults.some(r => r.id === obj.id));
+
+                // Центрируем карту на первом результате
+                const firstResult = customResults[0];
+                map.setCenter(firstResult.geometry.coordinates, 15);
+
+                // Открываем балун первого результата
+                const object = objectManager.objects.getById(firstResult.id);
+                objectManager.objects.balloon.open(firstResult.id);
+            } else {
+                // Если в пользовательских метках не найдено, ищем через Яндекс
+                searchControl.search(query);
+            }
+        }
+
+        function clearSearch() {
+            document.getElementById('searchInput').value = '';
+            objectManager.setFilter(() => true); // Сброс фильтра
+            searchControl.clear(); // Очистка результатов поиска Яндекса
+            map.setCenter([defaultLat, defaultLon], 12); // Возврат к исходному виду
+        }
+
+        function toggleMarkerForm() {
+            const form = document.getElementById('markerForm');
+            if (form.style.display === 'block') {
+                form.style.display = 'none';
+                if (newMarker) {
+                    map.geoObjects.remove(newMarker);
+                    newMarker = null;
+                }
+                newMarkerCoords = null;
+            } else {
+                form.style.display = 'block';
+            }
+        }
+        function saveMarker() {
+            if (!newMarkerCoords) {
+                alert('Выберите место на карте, кликнув по нему');
+                return;
+            }
+
+            const placeData = {
+                name: document.getElementById('markerName').value.trim(),
+                latitude: newMarkerCoords[0],
+                longitude: newMarkerCoords[1],
+                description: document.getElementById('markerDescription').value.trim(),
+                category: document.getElementById('markerCategory').value
+            };
+
+            fetch('/api/places', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + (localStorage.getItem('token') || '')
+                },
+                body: JSON.stringify(placeData)
+            })
+                .then(async response => {
+                    const data = await response.json();
+                    if (!response.ok) {
+                        throw new Error(data.message || 'Ошибка сервера');
+                    }
+                    return data;
+                })
+                .then(savedPlace => {
+                    objectManager.add({
+                        id: savedPlace.id,
+                        type: 'Feature',
+                        geometry: {
+                            type: 'Point',
+                            coordinates: [savedPlace.latitude, savedPlace.longitude]
+                        },
+                        properties: {
+                            name: savedPlace.name,
+                            description: savedPlace.description,
+                            category: savedPlace.category,
+                            balloonContent: `
+                    <h3>${savedPlace.name}</h3>
+                    <p><b>Категория:</b> ${getCategoryName(savedPlace.category)}</p>
+                    <p>${savedPlace.description}</p>
+                    <button onclick="deletePlace(${savedPlace.id})">Удалить</button>
+                `
+                        }
+                    });
+                    cancelMarker();
+                    alert('Метка успешно сохранена!');
+                })
+                .catch(error => {
+                    console.error('Ошибка сохранения:', error);
+                    alert('Ошибка сохранения: ' + error.message);
+                });
+        }
+        function cancelMarker() {
+            document.getElementById('markerName').value = '';
+            document.getElementById('markerDescription').value = '';
+            document.getElementById('markerCategory').value = 'restaurant';
+            toggleMarkerForm();
+
+            // Удаляем временную метку с карты, если она есть
+            if (newMarker) {
+                map.geoObjects.remove(newMarker);
+                newMarker = null;
+            }
+            newMarkerCoords = null;
+        }
+
+
     </script>
+
 </body>
-
-
 
 </html>
