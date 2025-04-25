@@ -2,25 +2,29 @@
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://thymeleaf.org">
 
 <head>
-    <link th:href="@{/css/style.css}" rel="stylesheet" />
+    <!-- <link th:href="@{/css/style.css}" rel="stylesheet" /> -->
+    <link rel="stylesheet" href="../css/layout.css">
+    <meta name="theme-color" content="#29df0c">
 </head>
 
 <body>
-    <header th:fragment="header">
+    <header>
         <div class="header">
+            <div class="left-sidebar"></div>
+            
             <nav>
-                <a href="" class="logo">LinkZone</a>
+                <a href="#" class="logo">GEOMAP</a>
                 <div class="nav-links">
                     <ul>
-                        <li><a href="/map">Домой</a></li>
-                        <li><a href="">Карта</a></li>
+                        <li><a href="../">Домой</a></li>
+                        <li><a href="/map">Карта</a></li>
+                        <li><a href="/login">Логин</a></li>
                     </ul>
                 </div>
             </nav>
-
-            <div class="left-sidebar"></div>
-
-
+    
+            
+            </div>
         </div>
     </header>
 </body>
