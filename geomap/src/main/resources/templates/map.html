@@ -4,13 +4,15 @@
 <head>
     <link th:href="@{/css/style.css}" rel="stylesheet" />
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>map page</title>
 
     <script src="https://api-maps.yandex.ru/2.1/?apikey=[[${yandexApiKey}]]&lang=ru_RU" 
         type="text/javascript"></script>
     <style>
         #map {
-            width: 80%;
+            width: 100%;
             height: 700px;
         }
 
@@ -55,6 +57,21 @@
             });
             map.geoObjects.add(marker);
         }
+
+        const burgerMenu = document.querySelector('.burger-menu');
+        const navLinks = document.querySelector('.nav-links');
+
+        burgerMenu.addEventListener('click', () => {
+            burgerMenu.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                burgerMenu.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
     </script>
 </body>
 

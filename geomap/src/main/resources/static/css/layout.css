@@ -15,7 +15,9 @@
     border-bottom: 4px solid #000;
 }
 
-
+.burger-menu {
+    display: none;
+}
 
 .main {
     background-color: #29df0c;
@@ -79,8 +81,12 @@ nav {
     max-width: 900px;
 }
 
-
 .right-col {
+
+}
+
+
+.left-col {
     flex-basis: 90%;
     padding-top: 40px;
 }
@@ -96,13 +102,13 @@ nav {
     filter: grayscale(1);
 }
 
-.right-col h1 {
+.left-col h1 {
     font-size: 55px;
     font-weight: 600;
     max-width: 720px;
 }
 
-.right-col p {
+.left-col p {
     color: #777;
     font-size: 40px;
     margin: 20px 0 70px;
@@ -221,25 +227,25 @@ nav {
 }
 
 /* Эффекты для текста */
-.right-col h1 {
+.left-col h1 {
     transition: text-shadow 0.3s;
 }
 
-.right-col h1:hover {
+.left-col h1:hover {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.right-col p {
+.left-col p {
     position: relative;
     transition: padding-left 0.3s;
     color: #000;
 }
 
-.right-col p:hover {
+.left-col p:hover {
     padding-left: 15px;
 }
 
-.right-col p::before {
+.left-col p::before {
     content: '';
     position: absolute;
     left: 0;
@@ -251,7 +257,7 @@ nav {
     transition: opacity 0.3s;
 }
 
-.right-col p:hover::before {
+.left-col p:hover::before {
     opacity: 1;
 }
 
